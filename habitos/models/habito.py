@@ -39,7 +39,7 @@ class HabitoBooleano(Habito):
     def es_cumplido_fecha(self, fecha)->bool:
         return self.registros.filter(fecha=fecha, cumplido=True).exists()
 
-    def calcular_progreso(self)->None:
+    def calcular_progreso(self)->float:
         total = self.registros.count()
 
         if total == 0:
@@ -79,7 +79,7 @@ class HabitoSemanal(Habito):
         inicio_semana = fecha - timedelta(days=fecha.weekday())
         fin_semana = inicio_semana + timedelta(days=6)
 
-        total = self.registros.filter(fecha_range=[inicio_semana, fin_semana], cumplido=True).count()
+        total = self.registros.filter(fecha__range=[inicio_semana, fin_semana], cumplido=True).count()
 
         return total >= self.objetivo_semanal
 
