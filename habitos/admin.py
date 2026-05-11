@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import *
 
-# Register your models here.
+admin.site.register(Usuario)
+admin.site.register(HabitoBooleano)
+admin.site.register(HabitoContador)
+admin.site.register(HabitoSemanal)
+admin.site.register(Registro)

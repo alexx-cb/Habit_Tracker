@@ -4,7 +4,7 @@ from django.db import models
 from abc import ABC, abstractmethod
 
 
-class Habito(models.Model, ABC):
+class Habito(models.Model):
     nombre = models.CharField(max_length=255)
     descripcion = models.CharField(max_length=255)
     fecha_inicio = models.DateField()
