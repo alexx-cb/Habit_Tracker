@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+
+<h1 class="mb-4">Bienvenido a Habit Tracker</h1>
+
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5>Total hábitos</h5>
+                <p>{{ total_habitos }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5>Total registros</h5>
+                <p>{{ total_registros }}</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalle hábito{% endblock %}
+
+{% block content %}
+
+<h1>{{ habito.nombre }}</h1>
+
+<p>{{ habito.descripcion }}</p>
+
+<ul class="list-group mb-4">
+    <li class="list-group-item">
+        Fecha inicio: {{ habito.fecha_inicio }}
+    </li>
+
+    <li class="list-group-item">
+        Activo: {{ habito.activo }}
+    </li>
+
+    <li class="list-group-item">
+        Progreso: {{ progreso }}%
+    </li>
+</ul>
+
+<a href="/registros/crear/{{ habito.id }}/" class="btn btn-success">
+    Añadir registro
+</a>
+
+<h3 class="mt-5">Registros</h3>
+
+<table class="table table-bordered mt-3">
+
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Cumplido</th>
+            <th>Valor</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    {% for registro in registros %}
+
+        <tr>
+            <td>{{ registro.fecha }}</td>
+            <td>{{ registro.cumplido }}</td>
+            <td>{{ registro.valor }}</td>
+        </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}

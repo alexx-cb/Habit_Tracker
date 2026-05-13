@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Estadísticas globales{% endblock %}
+
+{% block content %}
+
+<h1 class="mb-4">Estadísticas globales</h1>
+
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="card p-3 mb-3">
+            <h5>Total de hábitos</h5>
+            <p>{{ habitos|length }}</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card p-3 mb-3">
+            <h5>Puntuación total (media)</h5>
+            <p>{{ total|default:"0" }}</p>
+        </div>
+    </div>
+
+</div>
+
+<h3 class="mt-4">Lista de hábitos</h3>
+
+{% if habitos %}
+
+    <table class="table table-striped">
+
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Progreso</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        {% for habito in habitos %}
+
+            <tr>
+                <td>{{ habito.nombre }}</td>
+                <td>{{ habito.calcular_progreso|default:"0" }}%</td>
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+{% else %}
+
+    <div class="alert alert-info mt-3">
+        No hay hábitos registrados todavía.
+    </div>
+
+{% endif %}
+
+{% endblock %}

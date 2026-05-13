@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Hábitos{% endblock %}
+
+{% block content %}
+
+<h1 class="mb-4">Lista de Hábitos</h1>
+
+<a href="/habitos/crear/" class="btn btn-primary mb-3">
+    Crear hábito
+</a>
+
+<table class="table table-striped">
+
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Fecha inicio</th>
+            <th>Activo</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    {% for habito in habitos %}
+
+        <tr>
+            <td>{{ habito.nombre }}</td>
+            <td>{{ habito.fecha_inicio }}</td>
+            <td>{{ habito.activo }}</td>
+
+            <td>
+                <a href="/habitos/{{ habito.id }}/" class="btn btn-sm btn-info">
+                    Ver
+                </a>
+            </td>
+        </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}

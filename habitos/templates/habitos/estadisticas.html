@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Estadísticas{% endblock %}
+
+{% block content %}
+
+<h1 class="mb-4">Estadísticas</h1>
+
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5>Porcentaje cumplimiento</h5>
+                <p>{{ porcentaje|default:"0" }}%</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5>Racha actual</h5>
+                <p>{{ racha|default:"0" }}</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<h3 class="mt-5">Gráficas</h3>
+
+{% if grafica_cumplimiento %}
+    <img src="{{ grafica_cumplimiento }}" class="img-fluid mb-4">
+{% else %}
+    <div class="alert alert-info">No hay datos suficientes para mostrar la gráfica de cumplimiento.</div>
+{% endif %}
+
+{% if grafica_evolucion %}
+    <img src="{{ grafica_evolucion }}" class="img-fluid mb-4">
+{% else %}
+    <div class="alert alert-info">No hay datos suficientes para mostrar la gráfica de evolución.</div>
+{% endif %}
+
+{% endblock %}

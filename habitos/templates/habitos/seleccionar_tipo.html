@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Crear hábito{% endblock %}
+
+{% block content %}
+
+<h1 class="mb-4">Selecciona tipo de hábito</h1>
+
+<div class="list-group">
+
+    <a href="/habitos/crear/booleano/" class="list-group-item list-group-item-action">
+        Hábito Sí/No
+    </a>
+
+    <a href="/habitos/crear/contador/" class="list-group-item list-group-item-action">
+        Hábito con contador (ej: minutos, páginas)
+    </a>
+
+    <a href="/habitos/crear/semanal/" class="list-group-item list-group-item-action">
+        Hábito semanal
+    </a>
+
+</div>
+
+{% endblock %}
