@@ -22,7 +22,7 @@
     </li>
 </ul>
 
-<a href="/registros/crear/{{ habito.id }}/" class="btn btn-success">
+<a href="{% url 'crear_registro' tipo=tipo_habito habito_id=habito.id %}" class="btn btn-success">
     Añadir registro
 </a>
 

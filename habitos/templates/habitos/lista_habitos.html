@@ -15,6 +15,7 @@
     <thead>
         <tr>
             <th>Nombre</th>
+            <th>Tipo</th>
             <th>Fecha inicio</th>
             <th>Activo</th>
             <th>Acciones</th>
@@ -23,15 +24,64 @@
 
     <tbody>
 
-    {% for habito in habitos %}
+    <!-- HÁBITOS BOOLEANOS -->
+
+    {% for habito in habitos_booleanos %}
 
         <tr>
             <td>{{ habito.nombre }}</td>
+            <td>Booleano</td>
             <td>{{ habito.fecha_inicio }}</td>
             <td>{{ habito.activo }}</td>
 
             <td>
-                <a href="/habitos/{{ habito.id }}/" class="btn btn-sm btn-info">
+                <a href="{% url 'detalle_habito' tipo='booleano' habito_id=habito.id %}"
+                   class="btn btn-sm btn-info">
+
+                    Ver
+                </a>
+            </td>
+        </tr>
+
+    {% endfor %}
+
+
+    <!-- HÁBITOS CONTADOR -->
+
+    {% for habito in habitos_contador %}
+
+        <tr>
+            <td>{{ habito.nombre }}</td>
+            <td>Contador</td>
+            <td>{{ habito.fecha_inicio }}</td>
+            <td>{{ habito.activo }}</td>
+
+            <td>
+                <a href="{% url 'detalle_habito' tipo='contador' habito_id=habito.id %}"
+                   class="btn btn-sm btn-info">
+
+                    Ver
+                </a>
+            </td>
+        </tr>
+
+    {% endfor %}
+
+
+    <!-- HÁBITOS SEMANALES -->
+
+    {% for habito in habitos_semanales %}
+
+        <tr>
+            <td>{{ habito.nombre }}</td>
+            <td>Semanal</td>
+            <td>{{ habito.fecha_inicio }}</td>
+            <td>{{ habito.activo }}</td>
+
+            <td>
+                <a href="{% url 'detalle_habito' tipo='semanal' habito_id=habito.id %}"
+                   class="btn btn-sm btn-info">
+
                     Ver
                 </a>
             </td>

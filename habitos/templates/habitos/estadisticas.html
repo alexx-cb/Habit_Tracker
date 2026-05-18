@@ -4,20 +4,20 @@
 
 {% block content %}
 
-<h1 class="mb-4">Estadísticas</h1>
+<h1 class="mb-4">{{ habito.nombre }}</h1>
 
 <div class="row">
 
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="card mb-3">
             <div class="card-body">
-                <h5>Porcentaje cumplimiento</h5>
+                <h5>Progreso</h5>
                 <p>{{ porcentaje|default:"0" }}%</p>
             </div>
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="card mb-3">
             <div class="card-body">
                 <h5>Racha actual</h5>
@@ -26,20 +26,52 @@
         </div>
     </div>
 
+    <div class="col-md-3">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5>Total registros</h5>
+                <p>{{ total_registros }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5>Tasa cumplimiento</h5>
+                <p>{{ tasa|default:"0" }}%</p>
+            </div>
+        </div>
+    </div>
+
 </div>
 
-<h3 class="mt-5">Gráficas</h3>
+<h3 class="mt-4">Últimos registros</h3>
 
-{% if grafica_cumplimiento %}
-    <img src="{{ grafica_cumplimiento }}" class="img-fluid mb-4">
-{% else %}
-    <div class="alert alert-info">No hay datos suficientes para mostrar la gráfica de cumplimiento.</div>
-{% endif %}
+<table class="table table-striped">
 
-{% if grafica_evolucion %}
-    <img src="{{ grafica_evolucion }}" class="img-fluid mb-4">
-{% else %}
-    <div class="alert alert-info">No hay datos suficientes para mostrar la gráfica de evolución.</div>
-{% endif %}
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Cumplido</th>
+            <th>Valor</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    {% for r in registros %}
+
+        <tr>
+            <td>{{ r.fecha }}</td>
+            <td>{{ r.cumplido }}</td>
+            <td>{{ r.valor }}</td>
+        </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
 
 {% endblock %}

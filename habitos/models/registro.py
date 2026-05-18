@@ -5,7 +5,7 @@ from habitos.models.habito import Habito
 
 
 class Registro(models.Model):
-    habito = models.ForeignKey(
+    habito_booleano = models.ForeignKey(
         "habitos.HabitoBooleano",
         on_delete=models.CASCADE,
         related_name="registros",
@@ -59,7 +59,7 @@ class Registro(models.Model):
         """
 
         relaciones = [
-            self.habito,
+            self.habito_booleano,
             self.habito_contador,
             self.habito_semanal,
         ]
@@ -73,17 +73,23 @@ class Registro(models.Model):
                 "El registro debe pertenecer a un unico tipo de habito"
             )
 
-    def obtener_habito(self)->Habito:
+    def obtener_habito(self)->Habito | None:
         """
         Devuelve el habito asociado independientemente de su tipo
         :return: Habito
         """
 
-        return (
-            self.habito or
-            self.habito_contador or
-            self.habito_semanal
-        )
+        if self.habito_booleano is not None:
+            return self.habito_booleano
+
+        if self.habito_contador is not None:
+            return self.habito_contador
+
+        if self.habito_semanal is not None:
+            return self.habito_semanal
+
+        return None
+
 
     def es_numerico(self):
         """

@@ -51,6 +51,12 @@ urlpatterns = [
     ),
 
     path(
+        'habitos/<str:tipo>/<int:habito_id>/',
+        views.detalle_habito,
+        name='detalle_habito'
+    ),
+
+    path(
         'habitos/<int:habito_id>/eliminar/',
         views.eliminar_habito_booleano,
         name='eliminar_habito_booleano'
@@ -73,6 +79,12 @@ urlpatterns = [
         name='crear_registro_booleano'
     ),
 
+    path(
+        'registros/crear/<str:tipo>/<int:habito_id>/',
+        views.crear_registro,
+        name='crear_registro'
+    ),
+
 
     # ==============================
     # ESTADÍSTICAS
@@ -82,6 +94,12 @@ urlpatterns = [
         'estadisticas/<int:habito_id>/',
         views.estadisticas,
         name='estadisticas'
+    ),
+
+    path(
+        'estadisticas/<str:tipo>/<int:habito_id>/',
+        views.estadisticas_por_tipo,
+        name='estadisticas_por_tipo'
     ),
 
     path(

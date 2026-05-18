@@ -4,26 +4,297 @@
 
 {% block content %}
 
-<h1 class="mb-4">Bienvenido a Habit Tracker</h1>
+<div class="container">
 
-<div class="row">
+    <!-- HERO -->
 
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <h5>Total hábitos</h5>
-                <p>{{ total_habitos }}</p>
-            </div>
+    <div class="p-5 mb-4 bg-light rounded-3 shadow-sm">
+
+        <div class="container-fluid py-3">
+
+            <h1 class="display-5 fw-bold">
+                Habit Tracker
+            </h1>
+
+            <p class="col-md-8 fs-5">
+                Sistema de seguimiento de hábitos y análisis de progreso.
+                Controla rutinas, registra actividad y visualiza estadísticas.
+            </p>
+
+            <a href="/habitos/" class="btn btn-primary btn-lg">
+                Ver hábitos
+            </a>
+
         </div>
+
     </div>
 
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <h5>Total registros</h5>
-                <p>{{ total_registros }}</p>
+
+
+    <!-- TARJETAS PRINCIPALES -->
+
+    <div class="row mb-4">
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Total hábitos
+                    </h5>
+
+                    <h2>
+                        {{ total_habitos }}
+                    </h2>
+
+                    <p class="text-muted">
+                        Hábitos registrados actualmente.
+                    </p>
+
+                </div>
+
             </div>
+
         </div>
+
+
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Total registros
+                    </h5>
+
+                    <h2>
+                        {{ total_registros }}
+                    </h2>
+
+                    <p class="text-muted">
+                        Actividades registradas por usuarios.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Hábitos activos
+                    </h5>
+
+                    <h2>
+                        {{ habitos_activos }}
+                    </h2>
+
+                    <p class="text-muted">
+                        Hábitos actualmente en seguimiento.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Promedio progreso
+                    </h5>
+
+                    <h2>
+                        {{ promedio_progreso }}%
+                    </h2>
+
+                    <p class="text-muted">
+                        Media general de cumplimiento.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ACCIONES RÁPIDAS -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <h3 class="mb-3">
+                Acciones rápidas
+            </h3>
+
+            <div class="d-flex gap-2 flex-wrap">
+
+                <a href="/habitos/crear/"
+                   class="btn btn-primary">
+
+                    Crear hábito
+                </a>
+
+                <a href="/registros/"
+                   class="btn btn-success">
+
+                    Ver registros
+                </a>
+
+                <a href="{% url 'estadisticas_global' %}"
+                    class="btn btn-warning">
+
+                    Estadísticas
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ÚLTIMOS HÁBITOS -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <h3 class="mb-3">
+                Últimos hábitos creados
+            </h3>
+
+            {% if ultimos_habitos %}
+
+                <table class="table table-hover">
+
+                    <thead>
+
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Fecha inicio</th>
+                            <th>Activo</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for habito in ultimos_habitos %}
+
+                        <tr>
+
+                            <td>
+                                <a href="{% url 'detalle_habito' tipo=habito.tipo habito_id=habito.obj.id %}">
+                                    {{ habito.obj.nombre }}
+                                </a>
+                            </td>
+
+                            <td>
+                                {{ habito.obj.fecha_inicio }}
+                            </td>
+
+                            <td>
+
+                                {% if habito.obj.activo %}
+
+                                    <span class="badge bg-success">
+                                        Activo
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-danger">
+                                        Inactivo
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            {% else %}
+
+                <p class="text-muted">
+                    No hay hábitos creados todavía.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+
+    <!-- RESUMEN DEL SISTEMA -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h3 class="mb-3">
+                Información del sistema
+            </h3>
+
+            <ul class="list-group">
+
+                <li class="list-group-item">
+                    ✔ Seguimiento de hábitos diarios
+                </li>
+
+                <li class="list-group-item">
+                    ✔ Registro de progreso y estadísticas
+                </li>
+
+                <li class="list-group-item">
+                    ✔ Exportación e importación JSON
+                </li>
+
+                <li class="list-group-item">
+                    ✔ Persistencia PostgreSQL
+                </li>
+
+                <li class="list-group-item">
+                    ✔ Análisis de tendencias y gráficas
+                </li>
+
+            </ul>
+
+        </div>
+
     </div>
 
 </div>

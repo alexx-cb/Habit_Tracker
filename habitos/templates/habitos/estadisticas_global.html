@@ -17,8 +17,8 @@
 
     <div class="col-md-4">
         <div class="card p-3 mb-3">
-            <h5>Puntuación total (media)</h5>
-            <p>{{ total|default:"0" }}</p>
+            <h5>Progreso medio</h5>
+            <p>{{ total|default:"0" }}%</p>
         </div>
     </div>
 
@@ -28,35 +28,44 @@
 
 {% if habitos %}
 
-    <table class="table table-striped">
+<table class="table table-striped">
 
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Progreso</th>
-            </tr>
-        </thead>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th>Progreso</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
 
-        <tbody>
+    <tbody>
 
-        {% for habito in habitos %}
+    {% for h in habitos %}
 
-            <tr>
-                <td>{{ habito.nombre }}</td>
-                <td>{{ habito.calcular_progreso|default:"0" }}%</td>
-            </tr>
+        <tr>
+            <td>{{ h.nombre }}</td>
+            <td>{{ h.tipo }}</td>
+            <td>{{ h.progreso|default:"0" }}%</td>
 
-        {% endfor %}
+            <td>
+                <a href="{% url 'estadisticas_por_tipo' tipo=h.tipo habito_id=h.id %}" class="btn btn-sm btn-primary">
+                    Ver estadísticas
+                </a>
+            </td>
+        </tr>
 
-        </tbody>
+    {% endfor %}
 
-    </table>
+    </tbody>
+
+</table>
 
 {% else %}
 
-    <div class="alert alert-info mt-3">
-        No hay hábitos registrados todavía.
-    </div>
+<div class="alert alert-info mt-3">
+    No hay hábitos registrados todavía.
+</div>
 
 {% endif %}
 
