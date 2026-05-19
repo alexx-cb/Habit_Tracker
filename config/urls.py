@@ -22,4 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', include('habitos.urls')),
+
 ]
+handler404 = 'habitos.views.error_404'

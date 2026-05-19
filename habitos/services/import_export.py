@@ -1,81 +1,90 @@
 import json
-from datetime import datetime
 
 from habitos.models import (
     HabitoBooleano,
-    Registro
+    HabitoContador,
+    HabitoSemanal
 )
 
 
-class ImportExportService:
+class ExportadorHabitos:
 
     @staticmethod
-    def exportar_habitos(habitos, ruta):
+    def exportar_json():
 
-        datos = []
+        habitos = []
 
-        for habito in habitos:
+        # BOOLEANOS
+        for h in HabitoBooleano.objects.all():
 
-            datos.append({
-                "nombre": habito.nombre,
-                "descripcion": habito.descripcion,
-                "fecha_inicio": str(habito.fecha_inicio),
-                "activo": habito.activo
+            habitos.append({
+                "tipo": "booleano",
+                "nombre": h.nombre,
+                "descripcion": h.descripcion,
+                "fecha_inicio": str(h.fecha_inicio),
+                "activo": h.activo
             })
 
-        with open(ruta, "w", encoding="utf-8") as archivo:
+        # CONTADOR
+        for h in HabitoContador.objects.all():
 
-            json.dump(
-                datos,
-                archivo,
-                indent=4,
-                ensure_ascii=False
-            )
-
-    @staticmethod
-    def exportar_registros(registros, ruta):
-
-        datos = []
-
-        for registro in registros:
-
-            datos.append({
-                "fecha": str(registro.fecha),
-                "cumplido": registro.cumplido,
-                "valor": registro.valor,
-                "notas": registro.notas
+            habitos.append({
+                "tipo": "contador",
+                "nombre": h.nombre,
+                "descripcion": h.descripcion,
+                "fecha_inicio": str(h.fecha_inicio),
+                "activo": h.activo,
+                "objetivo_diario": h.objetivo_diario
             })
 
-        with open(ruta, "w", encoding="utf-8") as archivo:
+        # SEMANAL
+        for h in HabitoSemanal.objects.all():
 
-            json.dump(
-                datos,
-                archivo,
-                indent=4,
-                ensure_ascii=False
-            )
+            habitos.append({
+                "tipo": "semanal",
+                "nombre": h.nombre,
+                "descripcion": h.descripcion,
+                "fecha_inicio": str(h.fecha_inicio),
+                "activo": h.activo,
+                "objetivo_semanal": h.objetivo_semanal
+            })
+
+        return json.dumps(habitos, indent=4)
 
     @staticmethod
-    def importar_habitos(ruta):
+    def importar_json(archivo):
 
-        with open(ruta, "r", encoding="utf-8") as archivo:
-
-            datos = json.load(archivo)
-
-        habitos_creados = []
+        datos = json.load(archivo)
 
         for item in datos:
 
-            habito = HabitoBooleano.objects.create(
-                nombre=item["nombre"],
-                descripcion=item["descripcion"],
-                fecha_inicio=datetime.strptime(
-                    item["fecha_inicio"],
-                    "%Y-%m-%d"
-                ).date(),
-                activo=item["activo"]
-            )
+            tipo = item.get("tipo")
 
-            habitos_creados.append(habito)
+            if tipo == "booleano":
 
-        return habitos_creados
+                HabitoBooleano.objects.create(
+                    nombre=item["nombre"],
+                    descripcion=item["descripcion"],
+                    fecha_inicio=item["fecha_inicio"],
+                    activo=item["activo"]
+                )
+
+            elif tipo == "contador":
+
+                HabitoContador.objects.create(
+                    nombre=item["nombre"],
+                    descripcion=item["descripcion"],
+                    fecha_inicio=item["fecha_inicio"],
+                    activo=item["activo"],
+                    objetivo_diario=item["objetivo_diario"]
+                )
+
+            elif tipo == "semanal":
+
+                HabitoSemanal.objects.create(
+                    nombre=item["nombre"],
+                    descripcion=item["descripcion"],
+                    fecha_inicio=item["fecha_inicio"],
+                    activo=item["activo"],
+                    objetivo_semanal=item["objetivo_semanal"]
+                )

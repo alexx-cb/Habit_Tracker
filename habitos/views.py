@@ -1,5 +1,10 @@
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import login
+from .forms import RegistroUsuarioForm
+from django.http import HttpResponse
+from .services.import_export import ExportadorHabitos
+from .forms import ImportarJSONForm
 
 from .models import (
     HabitoBooleano,
@@ -55,6 +60,33 @@ def _contar_registros_cumplidos(habito, registros):
 
     return registros.filter(cumplido=True).count()
 
+# ======================================
+# REGISTRO USUARIO
+# ======================================
+
+def registro_usuario(request):
+
+    if request.method == 'POST':
+
+        form = RegistroUsuarioForm(request.POST)
+
+        if form.is_valid():
+
+            usuario = form.save()
+
+            login(request, usuario)
+
+            return redirect('home')
+
+    else:
+
+        form = RegistroUsuarioForm()
+
+    return render(
+        request,
+        'registration/registro.html',
+        {'form': form}
+    )
 
 # ======================================
 # HOME
@@ -305,3 +337,65 @@ def eliminar_habito_booleano(request, habito_id):
     return render(request, 'habitos/eliminar_habito.html', {
         'habito': habito
     })
+
+
+# ======================================
+# EXPORTAR JSON
+# ======================================
+
+def exportar_json(request):
+
+    datos_json = ExportadorHabitos.exportar_json()
+
+    response = HttpResponse(
+        datos_json,
+        content_type='application/json'
+    )
+
+    response['Content-Disposition'] = 'attachment; filename="habitos.json"'
+
+    return response
+
+# ======================================
+# IMPORTAR JSON
+# ======================================
+
+def importar_json(request):
+
+    if request.method == 'POST':
+
+        form = ImportarJSONForm(
+            request.POST,
+            request.FILES
+        )
+
+        if form.is_valid():
+
+            archivo = request.FILES['archivo']
+
+            ExportadorHabitos.importar_json(archivo)
+
+            return redirect('lista_habitos')
+
+    else:
+
+        form = ImportarJSONForm()
+
+    return render(
+        request,
+        'habitos/importar_json.html',
+        {'form': form}
+    )
+
+
+# ======================================
+# ERROR 404
+# ======================================
+
+def error_404(request, exception):
+
+    return render(
+        request,
+        'errors/404.html',
+        status=404
+    )

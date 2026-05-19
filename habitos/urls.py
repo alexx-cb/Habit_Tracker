@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
 
@@ -8,6 +9,30 @@ urlpatterns = [
     # ==============================
 
     path('', views.home, name='home'),
+    
+    # ==============================
+    # USUARIOS
+    # ==============================
+
+    path(
+        'login/',
+        auth_views.LoginView.as_view(
+            template_name='registration/login.html'
+        ),
+        name='login'
+    ),
+    
+    path(
+        'logout/',
+        auth_views.LogoutView.as_view(),
+        name='logout'
+    ),
+    
+    path(
+        'registro/',
+        views.registro_usuario,
+        name='registro_usuario'
+    ),
 
 
     # ==============================
@@ -106,4 +131,20 @@ urlpatterns = [
         'estadisticas_global/',
         views.estadisticas_global,
         name='estadisticas_global'),
+
+    # ==============================
+    # EXPORTAR IMPORTAR
+    # ==============================
+
+    path(
+        'exportar/json/',
+        views.exportar_json,
+        name='exportar_json'
+    ),
+
+    path(
+        'importar/json/',
+        views.importar_json,
+        name='importar_json'
+    ),
 ]

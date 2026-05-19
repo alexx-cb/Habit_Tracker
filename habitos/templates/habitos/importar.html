@@ -1,19 +1,21 @@
 {% extends 'base.html' %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Importar JSON{% endblock %}
 
 {% block content %}
 
-<h1 class="mb-4">Iniciar sesión</h1>
+<h1 class="mb-4">
+    Importar hábitos desde JSON
+</h1>
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
 
     {% csrf_token %}
 
     {{ form.as_p }}
 
     <button type="submit" class="btn btn-primary">
-        Entrar
+        Importar
     </button>
 
 </form>
